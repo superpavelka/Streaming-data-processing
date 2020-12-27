@@ -1,0 +1,75 @@
+/usr/hdp/3.1.4.0-315/kafka/bin/kafka-topics.sh --create --topic myTestTopic --zookeeper bigdataanalytics-worker-0.novalocal:2181 --partitions 3 --replication-factor 2 --config retention.ms=-1
+
+/usr/hdp/3.1.4.0-315/kafka/bin/kafka-topics.sh --create --topic myTestTopic --zookeeper bigdataanalytics-worker-1.novalocal:2181,bigdataanalytics-worker-3.novalocal:2181 --partitions 3 --replication-factor 2 --config retention.ms=-1
+
+/usr/hdp/3.1.4.0-315/kafka/bin/kafka-topics.sh --zookeeper bigdataanalytics-worker-0.novalocal:2181 --alter --config retention.ms=17280000000 --topic myTestTopic
+
+/usr/hdp/3.1.4.0-315/kafka/bin/kafka-topics.sh --zookeeper bigdataanalytics-worker-0.novalocal:2181 --alter --config retention.ms=1 --topic myTestTopic
+
+
+/usr/hdp/3.1.4.0-315/kafka/bin/kafka-console-producer.sh --topic myTestTopic --broker-list bigdataanalytics-worker-0.novalocal:6667 
+
+/usr/hdp/3.1.4.0-315/kafka/bin/kafka-console-consumer.sh --topic myTestTopic --from-beginning --bootstrap-server bigdataanalytics-worker-0.novalocal:6667 
+
+
+/usr/hdp/3.1.4.0-315/kafka/bin/kafka-topics.sh --zookeeper bigdataanalytics-worker-0.novalocal:2181 --delete --topic irisTopic
+
+/usr/hdp/3.1.4.0-315/kafka/bin/kafka-topics.sh --create --topic irisTopic --zookeeper bigdataanalytics-worker-0.novalocal:2181 --partitions 3 --replication-factor 2 --config retention.ms=-1
+/usr/hdp/3.1.4.0-315/kafka/bin/kafka-console-producer.sh --topic irisTopic --broker-list bigdataanalytics-worker-0.novalocal:6667 
+/usr/hdp/3.1.4.0-315/kafka/bin/kafka-console-consumer.sh --topic irisTopic --from-beginning --bootstrap-server bigdataanalytics-worker-0.novalocal:6667 
+
+/usr/hdp/3.1.4.0-315/kafka/bin/kafka-topics.sh --create --topic covidTopic --zookeeper bigdataanalytics-worker-0.novalocal:2181 --partitions 3 --replication-factor 2 --config retention.ms=-1
+/usr/hdp/3.1.4.0-315/kafka/bin/kafka-console-producer.sh --topic covidTopic --broker-list bigdataanalytics-worker-0.novalocal:6667 
+
+/usr/hdp/3.1.4.0-315/kafka/bin/kafka-topics.sh --create --topic billioneresTopic --zookeeper bigdataanalytics-worker-0.novalocal:2181 --partitions 3 --replication-factor 2 --config retention.ms=-1
+/usr/hdp/3.1.4.0-315/kafka/bin/kafka-console-producer.sh --topic billioneresTopic --broker-list bigdataanalytics-worker-0.novalocal:6667 
+/usr/hdp/3.1.4.0-315/kafka/bin/kafka-console-consumer.sh --topic myTestTopic --from-beginning --bootstrap-server bigdataanalytics-worker-0.novalocal:6667 
+
+USE  KEYSPACE  lesson7
+
+CREATE TABLE games
+(id int, 
+name text,
+genre text,
+primary key (id));
+
+insert into games (id, name, genre)
+values (1, 'Serios Sam', 'Shooter');
+
+select * from games;
+
+insert into games (id, name)
+values (2, 'Doom' );
+
+#Ð°Ð¿Ð´ÐµÐ¹Ñ‚ Ð·Ð°Ð¿Ð¸ÑÐ¸ 3
+insert into games (id, name)
+values (3, 'Diablo' );
+
+delete id from games where id = 3;
+
+insert into games (id, name, genre)
+values (3, null, null);
+
+insert into animals (id, name)
+values (5, 'Snake');
+
+#ÑƒÐ´Ð°Ð»ÑÐµÐ¼
+delete id from animals where id = 3;
+
+insert into animals (id, name, size)
+values (3, null, null);
+
+
+
+
+HBASE (Ð½Ð° Ð»ÑŽÐ±Ð¾Ð¹ Ð½Ð¾Ð´Ðµ):
+hbase shell
+create_namespace 'lesson7'
+create 'lesson7:animals', 'name', 'size'
+
+put 'lesson7:animals', '3', 'name', 'Deer'
+put 'lesson7:animals', '3', 'size', 'Big'
+put 'lesson7:animals', '5', 'name', 'Snake'
+
+put 'lesson7:animals', '3', 'name', 'Doe'
+delete 'lesson7:animals', '5'
