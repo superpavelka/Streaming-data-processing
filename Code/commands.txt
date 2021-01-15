@@ -25,6 +25,12 @@
 /usr/hdp/3.1.4.0-315/kafka/bin/kafka-console-producer.sh --topic billioneresTopic --broker-list bigdataanalytics-worker-0.novalocal:6667 
 /usr/hdp/3.1.4.0-315/kafka/bin/kafka-console-consumer.sh --topic myTestTopic --from-beginning --bootstrap-server bigdataanalytics-worker-0.novalocal:6667 
 
+/cassandra/bin/cqlsh 10.0.0.18
+
+CREATE  KEYSPACE  lesson7 
+   WITH REPLICATION = { 
+      'class' : 'SimpleStrategy', 'replication_factor' : 1 } ;
+
 USE  KEYSPACE  lesson7
 
 CREATE TABLE games
